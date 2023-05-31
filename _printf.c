@@ -1,67 +1,66 @@
 #include "main.h"
-
-void print_buffer(char buffer[], int *buff_ind);
-
-/**
- * _printf - Function that produces output according to a format
- * @format: format.
- * Return: Printed chars.
- */
-int _printf(const char *format, ...)
+void custom_write(const char* str, int length)
 {
-	int e, printed = 0, printed_chars = 0;
-	int flags, width, precision, size, buff_ind = 0;
-	va_list list;
-	char buffer[BUFF_SIZE];
-
-	if (format == NULL)
-		return (-1);
-
-	va_start(list, format);
-
-	for (e = 0; format && format[e] != '\0'; e++)
-	{
-		if (format[e] != '%')
-		{
-			buffer[buff_ind++] = format[e];
-			if (buff_ind == BUFF_SIZE)
-				print_buffer(buffer, &buff_ind);
-			/* write(1, &format[e], 1);*/
-			printed_chars++;
-		}
-		else
-		{
-			print_buffer(buffer, &buff_ind);
-			flags = get_flags(format, &e);
-			width = get_width(format, &e, list);
-			precision = get_precision(format, &e, list);
-			size = get_size(format, &e);
-			++e;
-			printed = handle_print(format, &e, list, buffer,
-				flags, width, precision, size);
-			if (printed == -1)
-				return (-1);
-			printed_chars += printed;
-		}
-	}
-
-	print_buffer(buffer, &buff_ind);
-
-	va_end(list);
-
-	return (printed_chars);
+    int i;
+    for (i = 0; i < length; i++) {
+        char c = str[i];
+        write(STDOUT_FILENO, &c, 1);
+    }
+}
+void custom_putchar(char c)
+{
+    write(STDOUT_FILENO, &c, 1);
 }
 
-/**
- * print_buffer - Print the contents of buffer if it exist
- * @buffer: Strings of chars
- * @buff_ind: Index at which to add next char, represents the length.
- */
-void print_buffer(char buffer[], int *buff_ind)
+int custom_strlen(const char* str)
 {
-	if (*buff_ind > 0)
-		write(1, &buffer[0], *buff_ind);
-
-	*buff_ind = 0;
+    int length = 0;
+    while (str[length] != '\0')
+        length++;
+    return length;
 }
 
+void custom_puts(const char* str)
+{
+    int length = custom_strlen(str);
+    custom_write(str, length);
+    custom_putchar('\n');
+}
+
+int _printf(const char* format, ...)
+{
+    va_list args;
+
+    int count = 0;
+    int i = 0;
+    va_start(args, format);
+
+    while (format[i] != '\0') {
+        if (format[i] == '%') {
+            i++;
+            if (format[i] == '\0')
+                break;
+            else if (format[i] == 'c') {
+                char c = (char)va_arg(args, int);
+                custom_putchar(c);
+                count++;
+            } else if (format[i] == 's') {
+                char* str = va_arg(args, char*);
+                int length = custom_strlen(str);
+                custom_write(str, length);
+                count += length;
+            } else if (format[i] == '%') {
+                custom_putchar('%');
+                count++;
+            }
+        } else {
+            custom_putchar(format[i]);
+            count++;
+        }
+        i++;
+    }
+
+    va_end(args);
+
+    return count;
+}
