@@ -114,6 +114,32 @@ int is_digit(char);
 long int convert_size_number(long int num, int size);
 long int convert_size_unsgnd(unsigned long int num, int size);
 
+void custom_write(const char* str, int length);
+int custom_strlen(const char* str);
+void custom_putchar(char c);
+void custom_reverse(char* str, int length);
+void custom_itoA(unsigned int value, char* str, int base);
+void custom_itoa(int value, char* str);
+void custom_putstr(const char* str);
+#include <unistd.h>
+#include <stdarg.h>
+#include <stdlib.h>
+#include <string.h>
+#include <stdio.h>
+void print_formatted_integer(const char* format, va_list args);
+int _printf(const char* format, ...);
+int _printInt(int number, ...);
+int handle_conversion_specifier(const char* format, va_list args);
+void handle_S_conversion_specifier(char* string);
+void handle_plus_flag(int* count, int* is_negative);
+void handle_space_flag(int* count, int is_negative);
+void handle_hash_flag(int* count, const char* format, va_list args);
+void handle_specifier(char specifier, va_list args, int *count);
+void handle_char_specifier(va_list args, int *count);
+void handle_string_specifier(va_list args, int *count);
+void handle_decimal_specifier(va_list args, int *count);
+void handle_percent_specifier(int *count);
+void handle_numeric_specifier(char specifier, va_list args, int *count);
+void handle_custom_string_specifier(va_list args, int *count);
+
 #endif /* MAIN_H */
-
-
