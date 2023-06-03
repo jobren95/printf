@@ -1,58 +1,44 @@
+#include <limits.h>
 #include <stdio.h>
 #include "main.h"
 
-int main(void) {
-    int count1, count2;
+/**
+ * main - Entry point
+ *
+ * Return: Always 0
+ */
+int main(void)
+{
+    int len;
+    int len2;
+    unsigned int ui;
+    void *addr;
 
-    /* Test %c specifier */
-    count1 = _printf("Character: %c\n", 'A');
-    count2 = printf("Character: %c\n", 'A');
-    printf("Count1: %d\nCount2: %d\n", count1, count2);
-
-    /* Test %s specifier */
-    count1 = _printf("String: %s\n", "Hello");
-    count2 = printf("String: %s\n", "Hello");
-    printf("Count1: %d\nCount2: %d\n", count1, count2);
-
-    /* Test %d specifier */
-    count1 = _printf("Decimal: %d\n", 12345);
-    count2 = printf("Decimal: %d\n", 12345);
-    printf("Count1: %d\nCount2: %d\n", count1, count2);
-
-    /* Test %i specifier */
-    count1 = _printf("Integer: %i\n", -54321);
-    count2 = printf("Integer: %i\n", -54321);
-    printf("Count1: %d\nCount2: %d\n", count1, count2);
-
-    /* Test %% specifier */
-    count1 = _printf("Percent sign: %%\n");
-    count2 = printf("Percent sign: %%\n");
-    printf("Count1: %d\nCount2: %d\n", count1, count2);
-
-    /* Test %u specifier */
-    count1 = _printf("Unsigned Decimal: %u\n", 4294967295);
-    count2 = printf("Unsigned Decimal: %u\n", 4294967295);
-    printf("Count1: %d\nCount2: %d\n", count1, count2);
-
-    /* Test %o specifier */
-    count1 = _printf("Octal: %o\n", 01234567);
-    count2 = printf("Octal: %o\n", 01234567);
-    printf("Count1: %d\nCount2: %d\n", count1, count2);
-
-    /* Test %x specifier */
-    count1 = _printf("Hexadecimal (lowercase): %x\n", 0xABCDEF);
-    count2 = printf("Hexadecimal (lowercase): %x\n", 0xABCDEF);
-    printf("Count1: %d\nCount2: %d\n", count1, count2);
-
-    /* Test %X specifier */
-    count1 = _printf("Hexadecimal (uppercase): %X\n", 0xABCDEF);
-    count2 = printf("Hexadecimal (uppercase): %X\n", 0xABCDEF);
-    printf("Count1: %d\nCount2: %d\n", count1, count2);
-
-    /* Test %S specifier */
-    count1 = _printf("Special String: %S\n", "Best\tSchool");
-    count2 = printf("Special String: %S\n", "Best\tSchool");
-    printf("Count1: %d\nCount2: %d\n", count1, count2);
-
-    return 0;
+    len = _printf("Let's try to printf a simple sentence.\n");
+    len2 = printf("Let's try to printf a simple sentence.\n");
+    ui = (unsigned int)INT_MAX + 1024;
+    addr = (void *)0x7ffe637541f0;
+    _printf("Length:[%d, %i]\n", len, len);
+    printf("Length:[%d, %i]\n", len2, len2);
+    _printf("Negative:[%d]\n", -762534);
+    printf("Negative:[%d]\n", -762534);
+    _printf("Unsigned:[%u]\n", ui);
+    printf("Unsigned:[%u]\n", ui);
+    _printf("Unsigned octal:[%o]\n", ui);
+    printf("Unsigned octal:[%o]\n", ui);
+    _printf("Unsigned hexadecimal:[%x, %X]\n", ui, ui);
+    printf("Unsigned hexadecimal:[%x, %X]\n", ui, ui);
+    _printf("Character:[%c]\n", 'H');
+    printf("Character:[%c]\n", 'H');
+    _printf("String:[%s]\n", "I am a string !");
+    printf("String:[%s]\n", "I am a string !");
+    _printf("Address:[%p]\n", addr);
+    printf("Address:[%p]\n", addr);
+    len = _printf("Percent:[%%]\n");
+    len2 = printf("Percent:[%%]\n");
+    _printf("Len:[%d]\n", len);
+    printf("Len:[%d]\n", len2);
+    _printf("Unknown:[%r]\n");
+    printf("Unknown:[%r]\n");
+    return (0);
 }
